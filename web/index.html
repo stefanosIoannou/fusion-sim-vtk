@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FusionScope</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo" aria-hidden="true"></span>
+    <div>
+      <h1>FusionScope</h1>
+      <p>Magnetic equilibria of real tokamak discharges · rendered with vtk.js</p>
+    </div>
+  </div>
+  <nav id="shots" class="shots" aria-label="Shot"></nav>
+</header>
+
+<main class="layout">
+  <section class="stage">
+    <div id="view3d" class="view"></div>
+
+    <div class="hud hud-tl">
+      <div class="hud-title"><span id="hud-machine"></span> <span id="hud-shot" class="muted"></span></div>
+      <div class="hud-time"><span id="hud-t">–</span> <span class="muted">ms</span></div>
+      <dl id="readout" class="readout"></dl>
+    </div>
+
+    <div class="hud hud-tr panel">
+      <h2>Layers</h2>
+      <label><input type="checkbox" id="opt-surfaces" checked> Nested flux surfaces</label>
+      <label><input type="checkbox" id="opt-lcfs" checked> Plasma boundary (LCFS)</label>
+      <label><input type="checkbox" id="opt-caps"> ψ<sub>N</sub> cross-section</label>
+      <label><input type="checkbox" id="opt-coils" checked> Poloidal-field coils</label>
+      <h2>Geometry</h2>
+      <label class="range">Cutaway <output id="out-cut">100°</output>
+        <input type="range" id="opt-cut" min="0" max="270" step="5" value="100"></label>
+      <label class="range">Surfaces <output id="out-levels">8</output>
+        <input type="range" id="opt-levels" min="2" max="14" step="1" value="8"></label>
+      <label class="range">Surface opacity <output id="out-opacity">1.00</output>
+        <input type="range" id="opt-opacity" min="0.1" max="1" step="0.05" value="1"></label>
+      <button id="btn-camera" type="button">Reset camera</button>
+    </div>
+
+    <div class="hud hud-bl legend">
+      <div class="legend-row">
+        <span class="legend-label">ψ<sub>N</sub></span>
+        <span class="bar bar-psi"></span>
+        <span class="ticks"><span>0 axis</span><span>1 LCFS</span></span>
+      </div>
+      <div class="legend-row">
+        <span class="legend-label">Coil I</span>
+        <span class="bar bar-coil"></span>
+        <span class="ticks"><span id="leg-imin">−</span><span>0</span><span id="leg-imax">+</span></span>
+      </div>
+    </div>
+
+    <div id="status" class="status">Loading…</div>
+  </section>
+
+  <aside class="side">
+    <div class="card card-terrain">
+      <h2>Flux terrain <span class="muted">ψ<sub>N</sub>(R,Z) on the 65×65 EFIT grid</span></h2>
+      <div id="terrain" class="view"></div>
+    </div>
+    <div class="card">
+      <h2>Discharge <span class="muted">click to seek</span></h2>
+      <canvas id="traces"></canvas>
+    </div>
+    <div class="card">
+      <h2>Coil currents <span class="muted">kA · click a coil to plot it</span></h2>
+      <canvas id="coilbars"></canvas>
+    </div>
+  </aside>
+</main>
+
+<footer class="timeline">
+  <button id="btn-play" type="button" aria-label="Play">▶</button>
+  <input type="range" id="slider" min="0" max="0" value="0" aria-label="Time">
+  <span id="frame-label" class="muted mono">0 / 0</span>
+  <label class="speed">Speed
+    <select id="speed">
+      <option value="4">4 fps</option>
+      <option value="10" selected>10 fps</option>
+      <option value="20">20 fps</option>
+      <option value="40">40 fps</option>
+    </select>
+  </label>
+</footer>
+
+<script src="vendor/vtk.js"></script>
+<script src="data/index.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
